@@ -1,30 +1,35 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
+  Alert,
   AppRegistry,
+  Button,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
 export default class TwitterSearchNotifier extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { twitterText: '' };
+  }
+
+  onSearchPress = () => {
+    this.setState({ twitterText: "Search button has been pressed" });
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Twitter Search Notifier
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
+        <Button
+          onPress={this.onSearchPress}
+          title="Search"
+          />
+        <Text>
+          {this.state.twitterText}
         </Text>
       </View>
     );
