@@ -12,40 +12,47 @@ import OAuthManager from 'react-native-oauth';
 export default class TwitterSearchNotifier extends Component {
   constructor(props) {
     super(props);
-    this.state = { twitterText: '' };
-  }
+    this.state = {
+      isLoggedIn: false,
+    };
 
-  getOauthManager = () => {
     const config = {
       twitter: {
         consumer_key: 'SOME_CONSUMER_KEY',
         consumer_secret: 'SOME_CONSUMER_SECRET',
       },
     };
-    const oauthManager = new OAuthManager('TwitterSearchNotifier');
-    oauthManager.configure(config);
-    return oauthManager;
-  };
+    this.oauthManager = new OAuthManager('TwitterSearchNotifier');
+    this.oauthManager.configure(config);
+  }
 
-  onSearchPress = () => {
-    console.log('onSearchPress starting...');
+  onTwitterLoginPress = () => {
+    console.log('onTwitterLoginPress');
 
-    const oauthManager = this.getOauthManager();
-
-    console.log('oauthManager retrieved...');
-
-    oauthManager
+    this.oauthManager
       .authorize('twitter')
       .then(resp => {
         console.log('Authorize Response -> ', resp);
-
-        const userTimelineUrl = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-        oauthManager
-          .makeRequest('twitter', userTimelineUrl)
-          .then(resp => console.log('Timeline Response ->', resp.data))
-          .catch(err => console.log('Timeline Error ->', err));
+        this.setState({
+          isLoggedIn: true,
+        });
       })
-      .catch(err => console.log('Authorize Error ->', err));
+      .catch(err => {
+        console.log('Authorize Error ->', err)
+        this.setState({
+          isLoggedIn: false,
+        });
+      });
+  }
+
+  onSearchPress = () => {
+    console.log('onSearchPress');
+
+    const searchUrl = 'https://api.twitter.com/1.1/search/tweets.json?q=%40railsconf';
+    this.oauthManager
+      .makeRequest('twitter', searchUrl)
+      .then(resp => console.log('Search Response ->', resp.data))
+      .catch(err => console.log('Search Error ->', err));
   };
 
   render() {
@@ -55,12 +62,16 @@ export default class TwitterSearchNotifier extends Component {
           Twitter Search Notifier
         </Text>
         <Button
+          onPress={this.onTwitterLoginPress}
+          title="Log in with Twitter"
+          />
+        <Text>
+          { this.state.isLoggedIn ? 'Login successful!' : 'Please log in.' }
+        </Text>
+        <Button
           onPress={this.onSearchPress}
           title="Search"
           />
-        <Text>
-          {this.state.twitterText}
-        </Text>
       </View>
     );
   }
