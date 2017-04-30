@@ -1774,7 +1774,7 @@ inquirer@^0.12.0:
     strip-ansi "^3.0.0"
     through "^2.3.6"
 
-invariant@^2.2.0:
+invariant@^2.2.0, invariant@^2.2.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -2911,6 +2911,13 @@ react-devtools-core@^2.0.8:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-oauth@2.1.14:
+  version "2.1.14"
+  resolved "https://registry.yarnpkg.com/react-native-oauth/-/react-native-oauth-2.1.14.tgz#3c9bef7f8e86f71e31d8501636b12d713343a20c"
+  dependencies:
+    invariant "^2.2.1"
+    valib "^2.0.0"
+
 react-native@0.43.4:
   version "0.43.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.43.4.tgz#92fb6937ab415b2e5612835a93a61845de98eb4d"
@@ -3647,6 +3654,10 @@ utils-merge@1.0.0:
 uuid@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
+
+valib@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/valib/-/valib-2.0.0.tgz#e0d455b10e17ae605c0f33971adac73564ee18a7"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.1"

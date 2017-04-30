@@ -7,6 +7,7 @@ import {
   Text,
   View
 } from 'react-native';
+import OAuthManager from 'react-native-oauth';
 
 export default class TwitterSearchNotifier extends Component {
   constructor(props) {
@@ -14,8 +15,37 @@ export default class TwitterSearchNotifier extends Component {
     this.state = { twitterText: '' };
   }
 
+  getOauthManager = () => {
+    const config = {
+      twitter: {
+        consumer_key: 'SOME_CONSUMER_KEY',
+        consumer_secret: 'SOME_CONSUMER_SECRET',
+      },
+    };
+    const oauthManager = new OAuthManager('TwitterSearchNotifier');
+    oauthManager.configure(config);
+    return oauthManager;
+  };
+
   onSearchPress = () => {
-    this.setState({ twitterText: "Search button has been pressed" });
+    console.log('onSearchPress starting...');
+
+    const oauthManager = this.getOauthManager();
+
+    console.log('oauthManager retrieved...');
+
+    oauthManager
+      .authorize('twitter')
+      .then(resp => {
+        console.log('Authorize Response -> ', resp);
+
+        const userTimelineUrl = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+        oauthManager
+          .makeRequest('twitter', userTimelineUrl)
+          .then(resp => console.log('Timeline Response ->', resp.data))
+          .catch(err => console.log('Timeline Error ->', err));
+      })
+      .catch(err => console.log('Authorize Error ->', err));
   };
 
   render() {
