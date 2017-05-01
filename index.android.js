@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 import OAuthManager from 'react-native-oauth';
 
+import SearchList from './app/components/SearchList';
+import TwitterLogin from './app/components/TwitterLogin';
+
 export default class TwitterSearchNotifier extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +28,20 @@ export default class TwitterSearchNotifier extends Component {
     this.oauthManager = new OAuthManager('TwitterSearchNotifier');
     this.oauthManager.configure(config);
   }
+
+  logout() {
+    this.oauthManager
+      .deauthorize('twitter')
+      .then(() => {
+        this.setState({
+          isLoggedIn: false,
+        });
+      });
+  }
+
+  onLogout = () => {
+    this.logout();
+  };
 
   onTwitterLoginPress = () => {
     console.log('onTwitterLoginPress');
@@ -51,27 +68,30 @@ export default class TwitterSearchNotifier extends Component {
     const searchUrl = 'https://api.twitter.com/1.1/search/tweets.json?q=%40railsconf';
     this.oauthManager
       .makeRequest('twitter', searchUrl)
-      .then(resp => console.log('Search Response ->', resp.data))
-      .catch(err => console.log('Search Error ->', err));
+      .then(resp => {
+        console.log('Search Response ->', resp.data);
+      })
+      .catch(err => {
+        console.log('Search Error ->', err);
+        this.logout();
+      });
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Twitter Search Notifier
-        </Text>
-        <Button
-          onPress={this.onTwitterLoginPress}
-          title="Log in with Twitter"
-          />
-        <Text>
-          { this.state.isLoggedIn ? 'Login successful!' : 'Please log in.' }
-        </Text>
-        <Button
-          onPress={this.onSearchPress}
-          title="Search"
-          />
+        {
+          this.state.isLoggedIn ?
+          <View>
+            <Button
+              onPress={this.onLogout}
+              title="Log out"
+              />
+            <SearchList />
+          </View>
+          :
+          <TwitterLogin onPress={this.onTwitterLoginPress} />
+        }
       </View>
     );
   }
@@ -79,20 +99,6 @@ export default class TwitterSearchNotifier extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 
