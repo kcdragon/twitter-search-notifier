@@ -5,31 +5,16 @@ import {
   Text,
   View,
 } from 'react-native';
-import OAuthManager from 'react-native-oauth';
+import oauthManager from '../TwitterOAuthManager';
 
 export default class TwitterLogin extends Component {
   static navigationOptions = {
     title: 'Twitter Login',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-
-    const config = {
-      twitter: {
-        consumer_key: 'SOME_CONSUMER_KEY',
-        consumer_secret: 'SOME_CONSUMER_SECRET',
-      },
-    };
-    this.oauthManager = new OAuthManager('TwitterSearchNotifier');
-    this.oauthManager.configure(config);
-  }
-
   logout() {
     const { navigate } = this.props.navigation;
-    this.oauthManager
+    oauthManager
       .deauthorize('twitter')
       .then(() => {
         navigate('TwitterLogin');
@@ -38,7 +23,7 @@ export default class TwitterLogin extends Component {
 
   onTwitterLoginPress = () => {
     const { navigate } = this.props.navigation;
-    this.oauthManager
+    oauthManager
       .authorize('twitter')
       .then(resp => {
         navigate('SearchList');
