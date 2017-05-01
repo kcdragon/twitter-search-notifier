@@ -3,12 +3,15 @@ import {
   AppRegistry,
   Button,
   ListView,
-  StyleSheet,
   Text,
   View,
 } from 'react-native';
 
 export default class SearchList extends Component {
+  static navigationOptions = {
+    title: 'Search List',
+  };
+
   constructor(props) {
     super(props);
     const dataSource = new ListView.DataSource({
@@ -17,31 +20,27 @@ export default class SearchList extends Component {
     this.state = {
       dataSource: dataSource.cloneWithRows([
         'railsconf',
-      ])
+      ]),
     };
   }
 
   onAddSearchNotificationPress = () => {
+    const { navigate } = this.props.navigation;
+    navigate('SearchForm');
   };
 
   render() {
     return (
       <View>
-        <Button
-          onPress={this.onAddSearchNotificationPress}
-          title="Add search notification"
-          />
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(row) => <Text>{row}</Text>}
+          />
+        <Button
+          onPress={this.onAddSearchNotificationPress}
+          title="Add search notification"
           />
       </View>
     );
   }
 };
-
-const styles = StyleSheet.create({
-  header: {
-    fontSize: 20,
-  },
-});
