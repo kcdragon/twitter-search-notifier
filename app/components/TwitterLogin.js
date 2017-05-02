@@ -28,7 +28,8 @@ export default class TwitterLogin extends Component {
       .then(resp => {
         navigate('SearchList');
       })
-      .catch(err => {
+      .catch(error => {
+        console.log(`Twitter authentication error: ${error}`);
         this.logout();
       });
   };
