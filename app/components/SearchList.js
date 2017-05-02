@@ -6,22 +6,35 @@ import {
   Text,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 
-export default class SearchList extends Component {
+const mapStateToProps = (state, ownProps) => {
+  return {
+    searches: state.searches
+  };
+};
+
+class SearchList extends Component {
   static navigationOptions = {
     title: 'Search List',
   };
 
   constructor(props) {
     super(props);
+    const { searches } = this.props;
     const dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
-    this.state = {
-      dataSource: dataSource.cloneWithRows([
-        'railsconf',
-      ]),
+     this.state = {
+      dataSource: dataSource.cloneWithRows(searches),
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const dataSource = this.state.dataSource.cloneWithRows(nextProps.searches);
+    this.setState({
+      dataSource
+    });
   }
 
   onAddSearchNotificationPress = () => {
@@ -43,4 +56,6 @@ export default class SearchList extends Component {
       </View>
     );
   }
-};
+}
+
+export default connect(mapStateToProps)(SearchList);
