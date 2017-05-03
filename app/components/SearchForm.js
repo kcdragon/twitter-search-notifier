@@ -10,18 +10,12 @@ import dismissKeyboard from 'dismissKeyboard';
 
 import { addSearch } from '../actions';
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddSearch: (search) => {
+    onAddSearch: (search) =>
       dispatch(addSearch(search))
-    }
-  }
-}
+  };
+};
 
 class SearchForm extends Component {
   static navigationOptions = {
@@ -63,4 +57,4 @@ class SearchForm extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
+export default connect(undefined, mapDispatchToProps)(SearchForm);

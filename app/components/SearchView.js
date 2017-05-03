@@ -4,20 +4,35 @@ import {
   Text,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 
-export default class SearchView extends Component {
-  onDeletePress() {
-    const { navigate } = this.props.navigation;
+import { removeSearch } from '../actions';
 
-    navigate('SearchList');
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onRemoveSearch: (search) =>
+      dispatch(removeSearch(search))
   }
+}
+
+class SearchView extends Component {
+  onDeletePress = () => {
+    const {
+      onRemoveSearch,
+      navigation: { navigate },
+    } = this.props;
+
+    onRemoveSearch(this.getSearch());
+    navigate('SearchList');
+  };
+
+  getSearch = () => this.props.navigation.state.params.search;
 
   render() {
-    const { search } = this.props.navigation.state.params;
     return (
       <View>
         <Text>
-          {search}
+          {this.getSearch()}
         </Text>
         <Button
           onPress={this.onDeletePress}
@@ -27,3 +42,5 @@ export default class SearchView extends Component {
     );
   }
 }
+
+export default connect(undefined, mapDispatchToProps)(SearchView);

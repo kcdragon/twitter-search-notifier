@@ -8,3 +8,12 @@ export function addSearch(search) {
     }
   };
 }
+
+export function removeSearch(search) {
+  return {
+    type: types.REMOVE_SEARCH,
+    payload: {
+      search
+    }
+  };
+}
