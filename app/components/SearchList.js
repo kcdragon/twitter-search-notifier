@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   Button,
   ListView,
   Text,
+  TouchableHighlight,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -42,12 +42,39 @@ class SearchList extends Component {
     navigate('SearchForm');
   };
 
+  onSearchRowPress = (row) => {
+    const { navigate } = this.props.navigation;
+    console.log("onSearchRowPress search: " + JSON.stringify(row));
+    navigate('SearchView', { search: row });
+  }
+
+  renderRow = (row) => {
+    const onSearchRowPress = this.onSearchRowPress;
+    return (
+      <TouchableHighlight onPress={() => onSearchRowPress(row)}>
+        <Text>{row}</Text>
+      </TouchableHighlight>
+    );
+  }
+
+  renderSeparator() {
+    return (
+      <View
+        style={{
+          height: 1,
+          backgroundColor: 'gray',
+        }}
+        />
+    )
+  }
+
   render() {
     return (
       <View>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(row) => <Text>{row}</Text>}
+          renderRow={this.renderRow}
+          renderSeparator={this.renderSeparator}
           />
         <Button
           onPress={this.onAddSearchNotificationPress}
