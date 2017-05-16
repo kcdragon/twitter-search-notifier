@@ -29,6 +29,7 @@ class SearchView extends Component {
   getSearch = () => this.props.navigation.state.params.search;
 
   render() {
+    // TODO display search in navigation header
     return (
       <View>
         <Text>

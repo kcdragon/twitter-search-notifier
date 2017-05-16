@@ -1,2 +1,2 @@
-export const ADD_SEARCH = 'ADD_SEARCH';
-export const REMOVE_SEARCH = 'REMOVE_SEARCH';
+export const ADD_SEARCH = 'App/ADD_SEARCH';
+export const REMOVE_SEARCH = 'App/REMOVE_SEARCH';

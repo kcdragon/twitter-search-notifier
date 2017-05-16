@@ -11,7 +11,7 @@ import TwitterLogin from './app/components/TwitterLogin';
 import store from './app/store';
 
 const App = StackNavigator({
-  Main: { screen: TwitterLogin },
+  Main: { screen: SearchList },
   TwitterLogin: { screen: TwitterLogin },
   SearchList: { screen: SearchList },
   SearchForm: { screen: SearchForm },

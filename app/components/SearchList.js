@@ -51,8 +51,17 @@ class SearchList extends Component {
   renderRow = (row) => {
     const onSearchRowPress = this.onSearchRowPress;
     return (
-      <TouchableHighlight onPress={() => onSearchRowPress(row)}>
-        <Text>{row}</Text>
+      <TouchableHighlight
+        onPress={() => onSearchRowPress(row)}
+        >
+        <Text
+          style={{
+            fontSize: 20,
+            padding: 10,
+          }}
+          >
+          {row}
+        </Text>
       </TouchableHighlight>
     );
   }

@@ -8,12 +8,13 @@ import {
 import { connect } from 'react-redux';
 import dismissKeyboard from 'dismissKeyboard';
 
-import { addSearch } from '../actions';
+import { addSearch, fetchSearch } from '../actions';
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onAddSearch: (search) =>
-      dispatch(addSearch(search))
+      // dispatch(addSearch(search))
+      addSearch(search)(dispatch)
   };
 };
 
